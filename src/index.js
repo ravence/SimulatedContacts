@@ -29,6 +29,21 @@ class Model {
         this.onChangeContacts(this.contacts);
     }
 
+    sortAsc() {
+        this.contacts.sort((a, b) => {
+            return (a.login.localeCompare(b.login));
+        })
+        this.onChangeContacts(this.contacts);
+    }
+
+    sortDesc() {
+        this.contacts.sort((a, b) => {
+            return (a.login.localeCompare(b.login));
+        })
+        this.contacts.reverse();
+        this.onChangeContacts(this.contacts);
+    }
+
     bindOnChangeContacts(fcn) {
         this.onChangeContacts = fcn;
     }
@@ -102,13 +117,20 @@ class Controller {
         this.model = model;
         this.view = view;
 
-        this.view.bindFilterButton(this.view.filterTiers);
+        this.view.bindFilterButton(this.handleFilter.bind(this));
         this.model.bindOnChangeContacts(this.handleChangeContacts.bind(this));
         this.model.loadData();
     }
 
     handleChangeContacts(contacts) {
         this.view.displayContacts(contacts);
+    }
+
+    handleFilter() {
+        if ($("#sortasc").prop("checked")) this.model.sortAsc();
+        if ($("#sortdesc").prop("checked")) this.model.sortDesc();
+
+        this.view.filterTiers();
     }
 }
 
