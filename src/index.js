@@ -1,5 +1,9 @@
 import './style.scss';
 
+const BRONZE = 0;
+const SILVER = 10;
+const GOLD = 100;
+
 class Model {
     constructor(sourceURL) {
         this.url = sourceURL;
@@ -41,14 +45,28 @@ class View {
         $("main table thead tr").append("<th>id</th>");
         $("main table thead tr").append("<th>username</th>");
         $("main table thead tr").append("<th>contributions</th>");
+
+        $("#tierall").prop("checked", true);
+    }
+
+    getTier(num) {
+        let tier = "bronze";
+        if (num >= 10) {
+            tier = "silver";
+        }
+        if (num >= 100) {
+            tier = "gold";
+        }
+
+        return tier;
     }
 
     displayContacts(contacts) {
-        $("table").not("thead").remove("tr");
+        $("table").find("tbody").remove();
 
         let htmlStr = "<tbody>";
         contacts.forEach((contact) => {
-            htmlStr += "<tr>";
+            htmlStr += ("<tr class='" + this.getTier(contact.contributions) + "'>");
 
             htmlStr += "<td><img src='" + contact.avatar_url + "' /></td>";
 
@@ -61,6 +79,22 @@ class View {
 
         $("main table").append(htmlStr);
     }
+
+    filterTiers() {
+        $("#tier3").prop("checked") ? $(".bronze").show() :$(".bronze").hide();
+        $("#tier2").prop("checked") ? $(".silver").show() :$(".silver").hide();
+        $("#tier1").prop("checked") ? $(".gold").show() :$(".gold").hide();
+
+        if ($("#tierall").prop("checked")) {
+            $(".bronze").show();
+            $(".silver").show();
+            $(".gold").show();
+        }
+    }
+
+    bindFilterButton(fcn) {
+        $("#filter-button").on("click", fcn);
+    }
 }
 
 class Controller {
@@ -68,8 +102,13 @@ class Controller {
         this.model = model;
         this.view = view;
 
-        this.model.bindOnChangeContacts(this.view.displayContacts);
+        this.view.bindFilterButton(this.view.filterTiers);
+        this.model.bindOnChangeContacts(this.handleChangeContacts.bind(this));
         this.model.loadData();
+    }
+
+    handleChangeContacts(contacts) {
+        this.view.displayContacts(contacts);
     }
 }
 
