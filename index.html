@@ -7,16 +7,41 @@
     <body>
 
         <div id="sidebar">
-            <h2>Filter</h2>
-            <input type="radio" id="tier3" name="tier" value="Bronze">
-            <label for="tier3">Bronze</label><br>
-            <input type="radio" id="tier2" name="tier" value="Silver">
-            <label for="tier2">Silver</label><br>
-            <input type="radio" id="tier1" name="tier" value="Gold">
-            <label for="tier1">Gold</label><br>
-            <input type="radio" id="tierall" name="tier" value="All">
-            <label for="tierall">All</label><br>
 
+            <div class="sidebar-nav">
+                <h3>Filter</h3>
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="tier3" name="tier" value="Bronze">
+                    <label for="tier3">Bronze</label><br>
+                </div>
+
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="tier2" name="tier" value="Silver">
+                    <label for="tier2">Silver</label><br>
+                </div>
+
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="tier1" name="tier" value="Gold">
+                    <label for="tier1">Gold</label><br>
+                </div>
+
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="tierall" name="tier" value="All">
+                    <label for="tierall">All</label><br>
+                </div>
+            </div>
+
+            <div class="sidebar-nav">
+                <h3>Sort by Name</h3>
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="sortasc" name="sort" value="asc">
+                    <label for="sortasc">Ascending</label><br>
+                </div>
+                <div class="sidebar-nav-options">
+                    <input type="radio" id="sortdesc" name="sort" value="desc">
+                    <label for="sortdesc">Descending</label><br>
+                </div>
+            </div>
             <button type="button" id="filter-button">Filter</button>
         </div>
 
