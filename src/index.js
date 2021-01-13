@@ -11,14 +11,23 @@ class Model {
     }
 
     loadData() {
-        var ths = this;
-
         $.getJSON({
-            url: this.url,
-            success: function(data) {
-                ths.contacts = data;
-                ths.onChangeContacts(ths.contacts);
-            }
+            url: this.url
+            })
+            .then((data) => {
+                this.contacts = data;
+                this.onChangeContacts(this.contacts);
+            })
+            .then(async (data) => {
+                for (var i = 0; i < this.contacts.length; i++) {
+                    var contactURL = this.contacts[i].url;
+                    var contactData = await $.getJSON({url: contactURL})
+
+                    this.contacts[i].email = contactData.email;
+                    this.contacts[i].location = contactData.location;
+                    this.contacts[i].company = contactData.company;
+                }
+                this.onChangeContacts(this.contacts);
         })
     }
 
@@ -60,6 +69,10 @@ class View {
         $("main table thead tr").append("<th>id</th>");
         $("main table thead tr").append("<th>username</th>");
         $("main table thead tr").append("<th>contributions</th>");
+        $("main table thead tr").append("<th>email</th>");
+        $("main table thead tr").append("<th>company</th>");
+        $("main table thead tr").append("<th>location</th>");
+
 
         $("#tierall").prop("checked", true);
     }
@@ -88,6 +101,11 @@ class View {
             htmlStr += "<td>" + contact.id + "</td>" +
                 "<td>" + contact.login + "</td>" +
                 "<td>" + contact.contributions + "</td>"
+
+            contact.email ? htmlStr += ("<td>" + contact.email + "</td>"): htmlStr += "<td>-</td>";
+            contact.company ? htmlStr += ("<td>" + contact.company + "</td>"): htmlStr += "<td>-</td>";
+            contact.location ? htmlStr += ("<td>" + contact.location + "</td>"): htmlStr += "<td>-</td>";
+
             htmlStr += "</tr>";
         })
         htmlStr += "</tbody>";
