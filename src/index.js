@@ -28,7 +28,15 @@ class Model {
                     this.contacts[i].company = contactData.company;
                 }
                 this.onChangeContacts(this.contacts);
-        })
+            })
+            .catch((error) => {
+                this.errorHandler(error);
+            })
+    }
+
+    errorHandler(error) {
+        alert("Error: " + error.statusText);
+        this.onChangeContacts(this.contacts);
     }
 
     editContact(index, field, data) {
