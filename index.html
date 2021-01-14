@@ -1,52 +1,112 @@
 <html>
     <head>
         <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Contact Management</title>
     </head>
 
     <body>
+        <div class="modal" id="editContact">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-        <div id="sidebar">
+                    <div class="modal-body">
+                        <form id="edit-form">
+                            <div class="form-group">
+                                <label for="username-input">Username</label>
+                                <input type="text" name="login" class="form-control" id="username-input" type="text">
+                            </div>
 
-            <div class="sidebar-nav">
-                <h3>Filter</h3>
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="tier3" name="tier" value="Bronze">
-                    <label for="tier3">Bronze</label><br>
-                </div>
+                            <div class="form-group">
+                                <label for="contributions-input">Contributions</label>
+                                <input type="number" name="contributions" min="0" step="1" class="form-control" id="contributions-input" type="text">
+                            </div>
 
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="tier2" name="tier" value="Silver">
-                    <label for="tier2">Silver</label><br>
-                </div>
 
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="tier1" name="tier" value="Gold">
-                    <label for="tier1">Gold</label><br>
-                </div>
+                            <div class="form-group">
+                                <label for="company-input">Email</label>
+                                <input type="email" name="email" class="form-control" id="email-input" type="text">
+                            </div>
 
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="tierall" name="tier" value="All">
-                    <label for="tierall">All</label><br>
+                            <div class="form-group">
+                                <label for="company-input">Company</label>
+                                <input type="text" name="company" class="form-control" id="company-input" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location-input">Location</label>
+                                <input type="text" name="location" class="form-control" id="location-input" type="text">
+                            </div>
+                        </form>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary submit">Save changes</button>
+                    </div>
+
+                    </div>
+
                 </div>
             </div>
-
-            <div class="sidebar-nav">
-                <h3>Sort by Name</h3>
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="sortasc" name="sort" value="asc">
-                    <label for="sortasc">Ascending</label><br>
-                </div>
-                <div class="sidebar-nav-options">
-                    <input type="radio" id="sortdesc" name="sort" value="desc">
-                    <label for="sortdesc">Descending</label><br>
-                </div>
-            </div>
-            <button type="button" id="filter-button">Filter</button>
         </div>
 
-        <main>
-        </main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 sidebar">
+                    <ul class="nav flex-column">
+                        <li><h4>Filter by Tier</h4></li>
+                        <li>
+                             <input type="radio" id="tier3" name="tier" value="Bronze">
+                            <label for="tier3">Bronze</label><br>
+                        </li>
+                        <li>
+                             <input type="radio" id="tier2" name="tier" value="Silver">
+                            <label for="tier2">Silver</label><br>
+                        </li>
+                        <li>
+                             <input type="radio" id="tier1" name="tier" value="Gold">
+                            <label for="tier1">Gold</label><br>
+                        </li>
+                        <li>
+                             <input type="radio" id="tierall" name="tier" value="All">
+                            <label for="tierall">All</label><br>
+                        </li>
+                        <li>
+                            <h4>Sort by Name</h4>
+                        </li>
+                        <li>
+                            <input type="radio" id="sortasc" name="sort" value="asc">
+                            <label for="sortasc">Ascending</label><br>
+                        </li>
+                        <li>
+                            <input type="radio" id="sortdesc" name="sort" value="desc">
+                            <label for="sortdesc">Descending</label><br>
+                        </li>
+                        <li>
+                            <button class="btn btn-primary" type="button" id="filter-button">Filter</button>
+                        </li>
+                </div>
+
+                <main class="col sm-8 main">
+                    <table class="table table-striped">
+                        <thead>
+                            <th></th>
+                            <th>id</th>
+                            <th>username</th>
+                            <th>contributions</th>
+                            <th>email</th>
+                            <th>company</th>
+                            <th>location</th>
+                            <th></th>
+                        </thead>
+                    </table>
+                </main>
+            </div>
+        </div>
 
         <script src="bundle.js">
         </script>
