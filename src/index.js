@@ -1,4 +1,6 @@
-import './style.scss';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './style.scss'
 
 const BRONZE = 0;
 const SILVER = 10;
@@ -10,7 +12,7 @@ class Model {
         this.contacts = [];
     }
 
-    loadData() {
+    async loadData() {
         $.getJSON({
             url: this.url
             })
@@ -30,20 +32,29 @@ class Model {
                 this.onChangeContacts(this.contacts);
             })
             .catch((error) => {
-                this.errorHandler(error);
-            })
+                this.onChangeContacts(this.contacts);
+                alert(error.statusText);
+        })
     }
 
-    errorHandler(error) {
-        alert("Error: " + error.statusText);
+    editContact(index, fieldToData) {
+        console.log(fieldToData);
+        fieldToData.forEach((element) => {
+            this.contacts[index][element.name] = element.value;
+        })
+
         this.onChangeContacts(this.contacts);
     }
 
-    editContact(index, field, data) {
-        if (this.contats[index].hasOwnProperty(field))
-            this.contacts[index][field] = data;
+    getContact(index) {
+        if (index < this.contacts.length)
+            return this.contacts[index]
+        else
+            return null;
+    }
 
-        this.onChangeContacts(this.contacts);
+    bindOnChangeContacts(fcn) {
+        this.onChangeContacts = fcn;
     }
 
     sortAsc() {
@@ -60,27 +71,10 @@ class Model {
         this.contacts.reverse();
         this.onChangeContacts(this.contacts);
     }
-
-    bindOnChangeContacts(fcn) {
-        this.onChangeContacts = fcn;
-    }
 }
 
 class View {
     constructor() {
-        $("main").append("<table></table>");
-        $("main table").append("<thead></thead>");
-
-        $("main table thead").append("<tr></tr>");
-
-        $("main table thead tr").append("<th></th>");
-        $("main table thead tr").append("<th>id</th>");
-        $("main table thead tr").append("<th>username</th>");
-        $("main table thead tr").append("<th>contributions</th>");
-        $("main table thead tr").append("<th>email</th>");
-        $("main table thead tr").append("<th>company</th>");
-        $("main table thead tr").append("<th>location</th>");
-
 
         $("#tierall").prop("checked", true);
     }
@@ -108,17 +102,35 @@ class View {
 
             htmlStr += "<td>" + contact.id + "</td>" +
                 "<td>" + contact.login + "</td>" +
-                "<td>" + contact.contributions + "</td>"
+                "<td>" + contact.contributions + "</td>";
 
-            contact.email ? htmlStr += ("<td>" + contact.email + "</td>"): htmlStr += "<td>-</td>";
-            contact.company ? htmlStr += ("<td>" + contact.company + "</td>"): htmlStr += "<td>-</td>";
-            contact.location ? htmlStr += ("<td>" + contact.location + "</td>"): htmlStr += "<td>-</td>";
+            htmlStr += this.drawExternalLoad(contact, "email");
+            htmlStr += this.drawExternalLoad(contact, "company");
+            htmlStr += this.drawExternalLoad(contact, "location");
+
+
+            htmlStr += "<td><button class='btn btn-secondary edit' data-toggle='modal' data-target='#editContact'>edit</button></td>"
 
             htmlStr += "</tr>";
         })
         htmlStr += "</tbody>";
 
         $("main table").append(htmlStr);
+    }
+
+    drawExternalLoad(contact, field) {
+        var str = "<td>"
+        if (contact[field] === undefined) {
+            str += '<div class="spinner-border spinner-border-sm" role="status">';
+        }
+        else if (contact[field] === null) {
+            str+= '-';
+        }
+        else {
+            str += contact[field];
+        }
+        str += "</td>";
+        return str;
     }
 
     filterTiers() {
@@ -133,8 +145,28 @@ class View {
         }
     }
 
+    modalOnShow(contact) {
+        $("#edit-form").trigger("reset");
+
+        $("#username-input").val(contact.login);
+        $("#contributions-input").val(contact.contributions);
+        $("#email-input").val(contact.email);
+        $("#company-input").val(contact.company);
+        $("#location-input").val(contact.location);
+    }
+
     bindFilterButton(fcn) {
         $("#filter-button").on("click", fcn);
+    }
+
+    bindEditButton(fcn) {
+        $("table").on("click", ".edit", (event) => {
+            fcn(event.target.parentElement.parentElement);
+        });
+    }
+
+    bindSubmit(fcn) {
+        $(".submit").on("click", fcn);
     }
 }
 
@@ -142,14 +174,32 @@ class Controller {
     constructor(model, view) {
         this.model = model;
         this.view = view;
+        this.i = -1
 
         this.view.bindFilterButton(this.handleFilter.bind(this));
         this.model.bindOnChangeContacts(this.handleChangeContacts.bind(this));
+        this.view.bindSubmit(this.handleSubmitEdit.bind(this));
         this.model.loadData();
+
+        this.view.bindEditButton(this.handleEdit.bind(this));
     }
 
     handleChangeContacts(contacts) {
         this.view.displayContacts(contacts);
+    }
+
+    handleEdit(tableRow) {
+        this.i = $.inArray(tableRow, $("tbody tr"))
+        this.view.modalOnShow(this.model.contacts[this.i]);
+    }
+
+    handleSubmitEdit() {
+        if (!document.getElementById("edit-form").reportValidity())
+            return;
+        let changes = $("#edit-form").serializeArray();
+        this.model.editContact(this.i, changes);
+        $("#editContact").modal("hide");
+
     }
 
     handleFilter() {
@@ -160,14 +210,5 @@ class Controller {
     }
 }
 
-new Controller(new Model("https://api.github.com/repos/thomasdavis/backbonetutorials/contributors"),
+let x = new Controller(new Model("https://api.github.com/repos/thomasdavis/backbonetutorials/contributors"),
     new View());
-
-// CONTACTS:
-// stores the array of js objects
-
-// DISPLAY:
-// takes js objects and puts in table
-
-// START:
-// changes data and then updates display
