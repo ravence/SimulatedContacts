@@ -12,7 +12,7 @@ class Model {
         this.contacts = [];
     }
 
-    async loadData() {
+    loadData() {
         $.getJSON({
             url: this.url
             })
@@ -147,6 +147,7 @@ class View {
 
     modalOnShow(contact) {
         $("#edit-form").trigger("reset");
+        $("#edit-form").removeClass("was-validated");
 
         $("#username-input").val(contact.login);
         $("#contributions-input").val(contact.contributions);
@@ -166,7 +167,10 @@ class View {
     }
 
     bindSubmit(fcn) {
-        $(".submit").on("click", fcn);
+        $(".submit").on("click", (event) => {
+            event.preventDefault();
+            fcn();
+        });
     }
 }
 
@@ -194,8 +198,11 @@ class Controller {
     }
 
     handleSubmitEdit() {
-        if (!document.getElementById("edit-form").reportValidity())
+        if (!$("#edit-form").get()[0].checkValidity()){
+            $("#edit-form").addClass("was-validated");
             return;
+        }
+        $("#edit-form").addClass("was-validated");
         let changes = $("#edit-form").serializeArray();
         this.model.editContact(this.i, changes);
         $("#editContact").modal("hide");
