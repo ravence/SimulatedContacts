@@ -134,11 +134,11 @@ class View {
     }
 
     filterTiers() {
-        $("#tier3").prop("checked") ? $(".bronze").show() :$(".bronze").hide();
-        $("#tier2").prop("checked") ? $(".silver").show() :$(".silver").hide();
-        $("#tier1").prop("checked") ? $(".gold").show() :$(".gold").hide();
+        $("#tier-filter").val() === "Bronze" ? $(".bronze").show() :$(".bronze").hide();
+        $("#tier-filter").val() === "Silver" ? $(".silver").show() :$(".silver").hide();
+        $("#tier-filter").val() === "Gold" ? $(".gold").show() :$(".gold").hide();
 
-        if ($("#tierall").prop("checked")) {
+        if ($("#tier-filter").val() === "All") {
             $(".bronze").show();
             $(".silver").show();
             $(".gold").show();
@@ -203,8 +203,8 @@ class Controller {
     }
 
     handleFilter() {
-        if ($("#sortasc").prop("checked")) this.model.sortAsc();
-        if ($("#sortdesc").prop("checked")) this.model.sortDesc();
+        if ($("#sort-select").val() === "asc") this.model.sortAsc();
+        if ($("#sort-select").val() === "desc") this.model.sortDesc();
 
         this.view.filterTiers();
     }
