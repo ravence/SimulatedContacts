@@ -60,31 +60,28 @@
                     <ul class="nav flex-column">
                         <li><h4>Filter by Tier</h4></li>
                         <li>
-                             <input type="radio" id="tier3" name="tier" value="Bronze">
-                            <label for="tier3">Bronze</label><br>
+                            <select id="tier-filter" name="tier" class="custom-select">
+                                 <option id="tier3" value="Bronze">
+                                <label for="tier3">Bronze</label><br>
+                                 <option id="tier2" value="Silver">
+                                <label for="select">Silver</label><br>
+                                 <option id="tier1" value="Gold">
+                                <label for="select">Gold</label><br>
+                                 <option id="tierall" value="All">
+                                <label for="tierall">All</label><br>
+                            </select>
                         </li>
-                        <li>
-                             <input type="radio" id="tier2" name="tier" value="Silver">
-                            <label for="tier2">Silver</label><br>
-                        </li>
-                        <li>
-                             <input type="radio" id="tier1" name="tier" value="Gold">
-                            <label for="tier1">Gold</label><br>
-                        </li>
-                        <li>
-                             <input type="radio" id="tierall" name="tier" value="All">
-                            <label for="tierall">All</label><br>
-                        </li>
+
                         <li>
                             <h4>Sort by Name</h4>
                         </li>
                         <li>
-                            <input type="radio" id="sortasc" name="sort" value="asc">
-                            <label for="sortasc">Ascending</label><br>
-                        </li>
-                        <li>
-                            <input type="radio" id="sortdesc" name="sort" value="desc">
-                            <label for="sortdesc">Descending</label><br>
+                            <select name="sort" id="sort-select" class="custom-select">
+                                <option id="sortasc" name="sort" value="asc">
+                                <label for="sortasc">Ascending</label><br>
+                                <option id="sortdesc" name="sort" value="desc">
+                                <label for="sortdesc">Descending</label><br>
+                            </select>
                         </li>
                         <li>
                             <button class="btn btn-primary" type="button" id="filter-button">Filter</button>
