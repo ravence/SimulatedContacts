@@ -17,21 +17,31 @@
                     </div>
 
                     <div class="modal-body">
-                        <form id="edit-form">
+                        <form id="edit-form" class="needs-validation" novalidate>
                             <div class="form-group">
-                                <label for="username-input">Username</label>
-                                <input type="text" name="login" class="form-control" id="username-input" type="text">
+                                <label for="username-input">Username*</label>
+                                <input type="text" name="login" class="form-control" id="username-input" type="text" required="required">
+                                  <div class="invalid-feedback">
+                                    Please provide a valid username.
+                                  </div>
+
                             </div>
 
                             <div class="form-group">
-                                <label for="contributions-input">Contributions</label>
-                                <input type="number" name="contributions" min="0" step="1" class="form-control" id="contributions-input" type="text">
-                            </div>
+                                <label for="contributions-input">Contributions*</label>
+                                <input type="number" name="contributions" min="0" step="1" class="form-control" id="contributions-input" type="text" required="required">
+                                  <div class="invalid-feedback">
+                                    Please provide a valid number of contributions.
+                                  </div>
 
+                            </div>
 
                             <div class="form-group">
                                 <label for="company-input">Email</label>
                                 <input type="email" name="email" class="form-control" id="email-input" type="text">
+                                  <div class="invalid-feedback">
+                                    Please provide a valid email address.
+                                  </div>
                             </div>
 
                             <div class="form-group">
@@ -43,11 +53,10 @@
                                 <label for="location-input">Location</label>
                                 <input type="text" name="location" class="form-control" id="location-input" type="text">
                             </div>
-                        </form>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary submit">Save changes</button>
-                    </div>
 
+                            <button type="submit" class="btn btn-primary submit">Save changes</button>
+
+                        </form>
                     </div>
 
                 </div>
